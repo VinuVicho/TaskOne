@@ -1,9 +1,8 @@
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
-using TaskOne.Data;
+using TaskOne.Models;
 using TaskOne.Models.Repositories;
 using TaskOne.Models.Repositories.Impl;
 using TaskOne.Services;
@@ -24,6 +23,7 @@ builder.Services.AddScoped<IServiceRepo, ServiceRepo>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IExecutorService, ExecutorService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 

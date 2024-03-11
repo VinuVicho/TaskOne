@@ -1,5 +1,4 @@
-﻿using TaskOne.Data;
-using TaskOne.Models.Entities;
+﻿using TaskOne.Models.Entities;
 
 namespace TaskOne.Models.Repositories.Impl
 {

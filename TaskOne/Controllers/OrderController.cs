@@ -11,7 +11,7 @@ namespace TaskOne.Controllers
 
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Order>))]
-        public IActionResult GetCustomers()
+        public IActionResult GetOrders()
         {
             var orders = orderService.GetOrders();
             if (!ModelState.IsValid)

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskOne.Models.Entities;
-using TaskOne.Models.Repositories;
 using TaskOne.Services;
 
 namespace TaskOne.Controllers
