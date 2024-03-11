@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using TaskOne.Exceptions;
 using TaskOne.Models.Dtos;
 using TaskOne.Models.Entities;
 using TaskOne.Models.Repositories;
@@ -26,12 +27,12 @@ namespace TaskOne.Services.Impl
             var executor = executorRepo.GetExecutor(loginRequest.Email);
             if (executor == null)
             {
-                throw new Exception("User not found");
+                throw new NotFoundException("User not found with email: " + loginRequest.Email);
             }
 
             if (!BCrypt.Net.BCrypt.Verify(loginRequest.Password, executor.PasswordHash))
             {
-                throw new Exception("Wrong password.");
+                throw new BadHttpRequestException("Wrong password");
             }
 
             string token = CreateToken(executor);
@@ -47,7 +48,7 @@ namespace TaskOne.Services.Impl
             List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, executor.Email),
-                new Claim(ClaimTypes.Role, executor.GetType().FullName)
+                new Claim(ClaimTypes.Role, executor.GetType().FullName!)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("Jwt:Key").Value!));

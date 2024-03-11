@@ -4,6 +4,6 @@ namespace TaskOne.Models.Repositories
 {
     public interface IOrderRepo
     {
-        ICollection<Order> getOrders();
+        ICollection<Order> GetOrders();
     }
 }

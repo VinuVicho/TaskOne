@@ -6,7 +6,7 @@ namespace TaskOne.Models.Repositories.Impl
     {
         public List<Executor> GetExecutors()
         {
-            throw new NotImplementedException();
+            return [.. context.Executors];
         }
 
         public Executor GetExecutor(string Email)
@@ -14,11 +14,21 @@ namespace TaskOne.Models.Repositories.Impl
             return context.Executors.FirstOrDefault(e => e.Email == Email);
         }
 
+        public Executor GetExecutor(int executorId)
+        {
+            throw new NotImplementedException();
+        }
+
         public Executor AddExecutor(Executor executor)
         {
             var result = context.Add(executor).Entity;
             context.SaveChanges();
             return result;
+        }
+
+        Executor IExecutorRepo.UpdateExecutor(Executor executor)
+        {
+            throw new NotImplementedException();
         }
 
         public void UpdateExecutor(Executor executor)

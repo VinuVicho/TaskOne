@@ -2,6 +2,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
+using TaskOne.Middlewares;
 using TaskOne.Models;
 using TaskOne.Models.Repositories;
 using TaskOne.Models.Repositories.Impl;
@@ -51,6 +52,7 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
 
     };
 });
+
 builder.Services.AddScoped<AppDbContext>();
 
 var app = builder.Build();
@@ -65,6 +67,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseMiddleware<GlobalExceptionHandler>();
 
 app.MapControllers();
 

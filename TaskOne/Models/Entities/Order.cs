@@ -3,14 +3,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TaskOne.Models.Entities
 {
-    public class Order      //TODO
+    public class Order
     {
-
         [Key]
         public int OrderId { get; set; }
-        [ForeignKey("Customer")]
         public int CustomerId { get; set; }
-        [ForeignKey("Executor")]
         public int ExecutorId { get; set; }
         public string Status { get; set; }
         public decimal TotalAmount { get; set; }

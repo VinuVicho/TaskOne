@@ -6,7 +6,8 @@ namespace TaskOne.Models.Repositories
     {
         public List<Executor> GetExecutors();
         public Executor GetExecutor(string Email);
+        public Executor GetExecutor(int executorId);
         public Executor AddExecutor(Executor executor);
-        public void UpdateExecutor(Executor executor);
+        public Executor UpdateExecutor(Executor executor);
     }
 }

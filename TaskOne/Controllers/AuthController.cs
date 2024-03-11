@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TaskOne.Models.Dtos;
-using TaskOne.Models.Entities;
 using TaskOne.Services;
 
 namespace TaskOne.Controllers
@@ -10,8 +9,10 @@ namespace TaskOne.Controllers
     [ApiController]
     public class AuthController(IMapper mapper, IAuthService authService): ControllerBase
     {
+
         [HttpPost("register")]
-        public ActionResult<Executor> Register(ExecutorRequestDto request)
+        [ProducesResponseType(200, Type = typeof(ExecutorDto))]
+        public ActionResult<ExecutorDto> Register(ExecutorRequestDto request)
         {
             var executorDto = authService.RegisterExecutor(request);
             if (!ModelState.IsValid)
@@ -20,7 +21,8 @@ namespace TaskOne.Controllers
         }
 
         [HttpPost("login")]
-        public ActionResult<Executor> Login(ExecutorLoginDto request)
+        [ProducesResponseType(404)]
+        public ActionResult<ExecutorDto> Login(ExecutorLoginDto request)
         {
             var executorDto = authService.Login(request);
             if (!ModelState.IsValid)
