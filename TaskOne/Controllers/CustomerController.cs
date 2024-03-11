@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TaskOne.Models.Entities;
 using TaskOne.Models.Repositories;
 using TaskOne.Services;
@@ -10,7 +11,7 @@ namespace TaskOne.Controllers
     public class CustomerController(ICustomerService customerService) : Controller
     {
 
-        [HttpGet]
+        [HttpGet, Authorize]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Customer>))]
         public IActionResult GetCustomers()
         {

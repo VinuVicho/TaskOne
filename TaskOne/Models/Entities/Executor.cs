@@ -8,5 +8,6 @@ namespace TaskOne.Models.Entities
         public int ExecutorId { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
+        public string PasswordHash { get; set; }
     }
 }

@@ -12,7 +12,7 @@ using TaskOne.Data;
 namespace TaskOne.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240309204404_InitDb")]
+    [Migration("20240310091136_InitDb")]
     partial class InitDb
     {
         /// <inheritdoc />
@@ -63,6 +63,10 @@ namespace TaskOne.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
