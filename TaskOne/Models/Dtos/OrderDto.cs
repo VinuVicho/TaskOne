@@ -1,10 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TaskOne.Models.Entities
+namespace TaskOne.Models.Dtos
 {
-    public class Order
+    public class OrderDto
     {
-        [Key]
         public int OrderId { get; set; }
         public int CustomerId { get; set; }
         public int ExecutorId { get; set; }

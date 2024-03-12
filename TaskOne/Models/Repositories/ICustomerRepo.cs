@@ -6,7 +6,7 @@ namespace TaskOne.Models.Repositories
     {
         ICollection<Customer> GetCustomers();
         Customer GetCustomer(int id);
-        void DeleteCustomer(int id);
+        bool DeleteCustomer(int id);
         Customer UpdateCustomer(Customer customer);
         Customer SaveCustomer(Customer customer);
     }

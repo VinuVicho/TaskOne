@@ -15,8 +15,6 @@ namespace TaskOne.Controllers
         public ActionResult<ExecutorDto> Register(ExecutorRequestDto request)
         {
             var executorDto = authService.RegisterExecutor(request);
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
             return Ok(executorDto);
         }
 
@@ -25,8 +23,6 @@ namespace TaskOne.Controllers
         public ActionResult<ExecutorDto> Login(ExecutorLoginDto request)
         {
             var executorDto = authService.Login(request);
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
             return Ok(executorDto);
         }
     }

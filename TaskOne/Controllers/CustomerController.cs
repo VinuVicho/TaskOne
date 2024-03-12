@@ -11,31 +11,45 @@ namespace TaskOne.Controllers
     {
         [HttpGet("all"), Authorize]
         [ProducesResponseType(200, Type = typeof(IEnumerable<CustomerDto>))]
-        public IActionResult GetCustomers()
+        public ActionResult<List<CustomerDto>> GetCustomers()
         {
             var customers = customerService.GetCustomers();
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
             return Ok(customers);
-        }
+    }
 
         [HttpGet("{customerId}"), Authorize]
         [ProducesResponseType(200, Type = typeof(CustomerDto))]
         [ProducesResponseType(404)]
-        public IActionResult GetCustomer(int customerId)
+        public ActionResult GetCustomer(int customerId)
         {
             var customers = customerService.GetCustomerById(customerId);
             return Ok(customers);
         }
 
-        [HttpPost("create")]
+        [HttpPost("create"), Authorize(Roles = "Executor")]
         [ProducesResponseType(200, Type = typeof(CustomerDto))]
-        public ActionResult<CustomerDto> Register(CustomerDto request)
+        public ActionResult<CustomerDto> CreateCustomer(CustomerDto request)
         {
             var customerDto = customerService.CreateCustomer(request);
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
             return Ok(customerDto);
+        }
+
+        [HttpPut("update"), Authorize(Roles = "Executor")]
+        [ProducesResponseType(200, Type = typeof(CustomerDto))]
+        [ProducesResponseType(404)]
+        public ActionResult<CustomerDto> UpdateCustomer(CustomerDto request)
+        {
+            var customerDto = customerService.UpdateCustomer(request);
+            return Ok(customerDto);
+        }
+
+        [HttpDelete("{customerId}"), Authorize(Roles = "Executor")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public ActionResult DeleteCustomer(int customerId)
+        {
+            customerService.DeleteCustomer(customerId);
+            return Ok();
         }
     }
 }

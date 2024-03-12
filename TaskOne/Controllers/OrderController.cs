@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TaskOne.Models.Entities;
 using TaskOne.Services;
 
@@ -9,13 +10,11 @@ namespace TaskOne.Controllers
     public class OrderController(IOrderService orderService) : Controller
     {
 
-        [HttpGet]
+        [HttpGet, Authorize]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Order>))]
-        public IActionResult GetOrders()
+        public ActionResult GetOrders()
         {
             var orders = orderService.GetOrders();
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
             return Ok(orders);
         }
     }

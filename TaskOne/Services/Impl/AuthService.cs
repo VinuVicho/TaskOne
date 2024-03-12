@@ -48,7 +48,7 @@ namespace TaskOne.Services.Impl
             List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, executor.Email),
-                new Claim(ClaimTypes.Role, executor.GetType().FullName!)
+                new Claim(ClaimTypes.Role, executor.GetType().Name!)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("Jwt:Key").Value!));

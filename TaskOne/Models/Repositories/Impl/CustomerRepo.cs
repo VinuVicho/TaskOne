@@ -1,4 +1,7 @@
-﻿using TaskOne.Models.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using TaskOne.Exceptions;
+using TaskOne.Models.Dtos;
+using TaskOne.Models.Entities;
 
 namespace TaskOne.Models.Repositories.Impl
 {
@@ -14,18 +17,20 @@ namespace TaskOne.Models.Repositories.Impl
             return context.Customers.Find(id);
         }
 
-        public void DeleteCustomer(int id)
+        public bool DeleteCustomer(int id)
         {
-            var toDelete = context.Customers.Find(id);
-            if (toDelete != null) 
-                context.Customers.Remove(toDelete);
+            var rowsAffected = context.Customers.Where(c => c.CustomerId == id).ExecuteDelete();
+            return rowsAffected != 0;
         }
 
         public Customer UpdateCustomer(Customer customer)
         {
-            var result = context.Update(customer).Entity;
+            var toUpdate = context.Customers.FirstOrDefault(c => c.CustomerId == customer.CustomerId);
+            if (toUpdate == null) 
+                throw new NotFoundException("Cannot update customer with id: " + customer.CustomerId);
+            context.Entry(toUpdate).CurrentValues.SetValues(customer);
             context.SaveChanges();
-            return result;
+            return toUpdate;
         }
 
         public Customer SaveCustomer(Customer customer)

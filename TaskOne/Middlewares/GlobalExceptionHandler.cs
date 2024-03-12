@@ -21,6 +21,7 @@ namespace TaskOne.Middlewares
             }
             catch (Exception e)
             {
+                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 await WriteErrorMessage(context, e);
             }
         }

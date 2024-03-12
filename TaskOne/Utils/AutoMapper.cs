@@ -2,7 +2,7 @@
 using TaskOne.Models.Dtos;
 using TaskOne.Models.Entities;
 
-namespace TaskOne.Middlewares
+namespace TaskOne.Utils
 {
     public class AutoMapper : Profile
     {
