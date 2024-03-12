@@ -34,7 +34,7 @@ namespace TaskOne.Models.Repositories.Impl
             return toUpdate;
         }
 
-        public Customer CreateCustomer(Customer customer)
+        public Customer CreateCustomer(Customer customer)       //TODO: new dto
         {
             var result = context.Add(customer).Entity;
             context.SaveChanges();

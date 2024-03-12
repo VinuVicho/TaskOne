@@ -37,7 +37,7 @@ namespace TaskOne.Services.Impl
         {
             if (!serviceRepo.DeleteService(serviceId))
             {
-                throw new NotFoundException("Customer cannot be deleted with id: " + serviceId);
+                throw new NotFoundException("Service cannot be deleted with id: " + serviceId);
             }
         }
     }

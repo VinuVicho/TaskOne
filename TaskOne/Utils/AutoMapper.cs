@@ -11,7 +11,7 @@ namespace TaskOne.Utils
             CreateMap<Customer, CustomerDto>().ReverseMap();
 
             CreateMap<Executor, ExecutorRequestDto>().ReverseMap();
-            CreateMap<Executor, ExecutorDto>();
+            CreateMap<Executor, ExecutorDto>().ReverseMap();
             CreateMap<ExecutorLoginDto, Executor>();
 
             CreateMap<Order, OrderDto>().ReverseMap();
