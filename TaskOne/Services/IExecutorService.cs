@@ -7,7 +7,6 @@ namespace TaskOne.Services
     {
         public ICollection<ExecutorDto> GetExecutors();
         public ExecutorDto UpdateExecutor(ExecutorDto executorDto);
-        public void DeleteCustomer(int executorId);
-        public ExecutorDto GetExecutorById(int executorId);
+        public ExecutorDto GetExecutor(int executorId);
     }
 }

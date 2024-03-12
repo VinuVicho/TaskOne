@@ -7,23 +7,23 @@ namespace TaskOne.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CustomerController(ICustomerService customerService) : Controller
+    public class CustomerController(ICustomerService customerService) : ControllerBase
     {
         [HttpGet("all"), Authorize]
         [ProducesResponseType(200, Type = typeof(IEnumerable<CustomerDto>))]
-        public ActionResult<List<CustomerDto>> GetCustomers()
+        public ActionResult<IEnumerable<CustomerDto>> GetCustomers()
         {
             var customers = customerService.GetCustomers();
             return Ok(customers);
-    }
+        }
 
         [HttpGet("{customerId}"), Authorize]
         [ProducesResponseType(200, Type = typeof(CustomerDto))]
         [ProducesResponseType(404)]
         public ActionResult GetCustomer(int customerId)
         {
-            var customers = customerService.GetCustomerById(customerId);
-            return Ok(customers);
+            var customer = customerService.GetCustomerById(customerId);
+            return Ok(customer);
         }
 
         [HttpPost("create"), Authorize(Roles = "Executor")]

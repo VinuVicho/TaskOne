@@ -19,8 +19,9 @@ namespace TaskOne.Controllers
         }
 
         [HttpPost("login")]
+        [ProducesResponseType(200, Type = typeof(string))]
         [ProducesResponseType(404)]
-        public ActionResult<ExecutorDto> Login(ExecutorLoginDto request)
+        public ActionResult<string> Login(ExecutorLoginDto request)
         {
             var executorDto = authService.Login(request);
             return Ok(executorDto);

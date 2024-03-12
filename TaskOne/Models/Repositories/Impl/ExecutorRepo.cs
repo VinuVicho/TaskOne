@@ -1,4 +1,5 @@
-﻿using TaskOne.Models.Entities;
+﻿using TaskOne.Exceptions;
+using TaskOne.Models.Entities;
 
 namespace TaskOne.Models.Repositories.Impl
 {
@@ -16,7 +17,7 @@ namespace TaskOne.Models.Repositories.Impl
 
         public Executor GetExecutor(int executorId)
         {
-            throw new NotImplementedException();
+            return context.Executors.Find(executorId);
         }
 
         public Executor AddExecutor(Executor executor)
@@ -26,14 +27,16 @@ namespace TaskOne.Models.Repositories.Impl
             return result;
         }
 
-        Executor IExecutorRepo.UpdateExecutor(Executor executor)
+        public Executor UpdateExecutor(Executor executor)
         {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateExecutor(Executor executor)
-        {
-            throw new NotImplementedException();
+            var toUpdate = context.Executors.FirstOrDefault(c => c.ExecutorId == executor.ExecutorId);
+            if (toUpdate == null)
+            {
+                throw new NotFoundException("Cannot update executor with id: " + executor.ExecutorId);
+            }
+            context.Entry(toUpdate).CurrentValues.SetValues(executor);
+            context.SaveChanges();
+            return toUpdate;
         }
     }
 }

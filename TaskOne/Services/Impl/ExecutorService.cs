@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using TaskOne.Exceptions;
 using TaskOne.Models.Dtos;
 using TaskOne.Models.Entities;
 using TaskOne.Models.Repositories;
+using TaskOne.Models.Repositories.Impl;
 
 namespace TaskOne.Services.Impl
 {
@@ -14,17 +16,18 @@ namespace TaskOne.Services.Impl
 
         public ExecutorDto UpdateExecutor(ExecutorDto executorDto)
         {
-            throw new NotImplementedException();
+            var resultExecutor = executorRepo.UpdateExecutor(mapper.Map<Executor>(executorDto));
+            return mapper.Map<ExecutorDto>(resultExecutor);
         }
 
-        public void DeleteCustomer(int executorId)
+        public ExecutorDto GetExecutor(int executorId)
         {
-            throw new NotImplementedException();
-        }
-
-        public ExecutorDto GetExecutorById(int executorId)
-        {
-            throw new NotImplementedException();
+            var executor = executorRepo.GetExecutor(executorId);
+            if (executor == null)
+            {
+                throw new NotFoundException("Executor not found with id: " + executorId);
+            }
+            return mapper.Map<ExecutorDto>(executor);
         }
     }
 }

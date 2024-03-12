@@ -2,9 +2,7 @@
 
 namespace TaskOne.Services
 {
-    /**
-     * Yeah, Service is pretty cool name for entity)
-     */
+    // Yeah, Service is pretty cool name for entity)
     public interface IServiceService
     {
         public ICollection<ServiceDto> GeServices();

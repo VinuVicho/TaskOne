@@ -28,14 +28,18 @@ namespace TaskOne.Services.Impl
         public void DeleteCustomer(int customerId)
         {
             if (!customerRepo.DeleteCustomer(customerId))
+            {
                 throw new NotFoundException("Customer cannot be deleted with id: " + customerId);
+            }
         }
 
         public CustomerDto GetCustomerById(int customerId)
         {
             var customer = customerRepo.GetCustomer(customerId);
             if (customer == null)
+            {
                 throw new NotFoundException("Customer not found with id: " + customerId);
+            }
             return mapper.Map<CustomerDto>(customer);
         }
     }
