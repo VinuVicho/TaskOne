@@ -11,7 +11,7 @@ namespace TaskOne.Models.Repositories.Impl
             return [.. context.Customers];
         }
 
-        public Customer GetCustomer(int id)
+        public Customer GetCustomerById(int id)
         {
             return context.Customers.Find(id);
         }
@@ -34,7 +34,7 @@ namespace TaskOne.Models.Repositories.Impl
             return toUpdate;
         }
 
-        public Customer SaveCustomer(Customer customer)
+        public Customer CreateCustomer(Customer customer)
         {
             var result = context.Add(customer).Entity;
             context.SaveChanges();

@@ -4,10 +4,8 @@ using TaskOne.Exceptions;
 
 namespace TaskOne.Middlewares
 {
-    public class GlobalExceptionHandler(RequestDelegate next)
+    public class GlobalExceptionHandler(RequestDelegate next, ILogger<GlobalExceptionHandler> logger)
     {
-        private readonly RequestDelegate _next = next;
-
         public async Task InvokeAsync(HttpContext context)
         {
             try
@@ -21,6 +19,7 @@ namespace TaskOne.Middlewares
             }
             catch (Exception e)
             {
+                logger.LogError(e.Message);
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 await WriteErrorMessage(context, e);
             }

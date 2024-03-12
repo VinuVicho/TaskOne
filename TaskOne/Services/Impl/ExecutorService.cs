@@ -22,12 +22,10 @@ namespace TaskOne.Services.Impl
 
         public ExecutorDto GetExecutor(int executorId)
         {
-            var executor = executorRepo.GetExecutor(executorId);
-            if (executor == null)
-            {
-                throw new NotFoundException("Executor not found with id: " + executorId);
-            }
-            return mapper.Map<ExecutorDto>(executor);
+            var executor = executorRepo.GetExecutorById(executorId);
+            return executor == null
+                ? throw new NotFoundException("Executor not found with id: " + executorId)
+                : mapper.Map<ExecutorDto>(executor);
         }
     }
 }

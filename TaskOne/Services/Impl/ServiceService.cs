@@ -1,32 +1,44 @@
-﻿using TaskOne.Models.Dtos;
+﻿using AutoMapper;
+using TaskOne.Exceptions;
+using TaskOne.Models.Dtos;
+using TaskOne.Models.Entities;
+using TaskOne.Models.Repositories;
 
 namespace TaskOne.Services.Impl
 {
-    public class ServiceService: IServiceService
+    public class ServiceService(IServiceRepo serviceRepo, IMapper mapper): IServiceService
     {
-        public ICollection<ServiceDto> GeServices()
+        public ICollection<ServiceDto> GetServices()
         {
-            throw new NotImplementedException();
+            return serviceRepo.GetServices().Select(mapper.Map<ServiceDto>).ToList();
         }
 
-        public ServiceDto GetService(int id)
+        public ServiceDto GetService(int serviceId)
         {
-            throw new NotImplementedException();
+            var service = serviceRepo.GetServiceById(serviceId);
+            return service == null
+                ? throw new NotFoundException("Service not found with id: " + serviceId)
+                : mapper.Map<ServiceDto>(service);
         }
 
-        public ServiceDto UpdateOrder(ServiceDto serviceDto)
+        public ServiceDto UpdateService(ServiceDto serviceDto)
         {
-            throw new NotImplementedException();
+            var resultService = serviceRepo.UpdateService(mapper.Map<Service>(serviceDto));
+            return mapper.Map<ServiceDto>(resultService);
         }
 
-        public ServiceDto CreateOrder(ServiceDto serviceDto)
+        public ServiceDto CreateService(ServiceDto serviceDto)
         {
-            throw new NotImplementedException();
+            var resultService = serviceRepo.CreateService(mapper.Map<Service>(serviceDto));
+            return mapper.Map<ServiceDto>(resultService);
         }
 
-        public void DeleteService(int id)
+        public void DeleteService(int serviceId)
         {
-            throw new NotImplementedException();
+            if (!serviceRepo.DeleteService(serviceId))
+            {
+                throw new NotFoundException("Customer cannot be deleted with id: " + serviceId);
+            }
         }
     }
 }

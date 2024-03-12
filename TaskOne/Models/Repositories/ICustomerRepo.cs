@@ -5,9 +5,9 @@ namespace TaskOne.Models.Repositories
     public interface ICustomerRepo
     {
         ICollection<Customer> GetCustomers();
-        Customer GetCustomer(int id);
+        Customer GetCustomerById(int id);
         bool DeleteCustomer(int id);
         Customer UpdateCustomer(Customer customer);
-        Customer SaveCustomer(Customer customer);
+        Customer CreateCustomer(Customer customer);
     }
 }

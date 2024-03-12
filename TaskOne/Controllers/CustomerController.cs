@@ -17,10 +17,10 @@ namespace TaskOne.Controllers
             return Ok(customers);
         }
 
-        [HttpGet("{customerId}"), Authorize]
+        [HttpGet("{customerId:int}"), Authorize]
         [ProducesResponseType(200, Type = typeof(CustomerDto))]
         [ProducesResponseType(404)]
-        public ActionResult GetCustomer(int customerId)
+        public ActionResult<CustomerDto> GetCustomer(int customerId)
         {
             var customer = customerService.GetCustomerById(customerId);
             return Ok(customer);
@@ -43,7 +43,7 @@ namespace TaskOne.Controllers
             return Ok(customerDto);
         }
 
-        [HttpDelete("{customerId}"), Authorize(Roles = "Executor")]
+        [HttpDelete("{customerId:int}"), Authorize(Roles = "Executor")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         public ActionResult DeleteCustomer(int customerId)

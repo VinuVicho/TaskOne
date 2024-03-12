@@ -24,7 +24,7 @@ namespace TaskOne.Services.Impl
 
         public string Login(ExecutorLoginDto loginRequest)
         {
-            var executor = executorRepo.GetExecutor(loginRequest.Email);
+            var executor = executorRepo.GetExecutorByEmail(loginRequest.Email);
             if (executor == null)
             {
                 throw new NotFoundException("User not found with email: " + loginRequest.Email);

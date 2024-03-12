@@ -11,8 +11,6 @@ using TaskOne.Services.Impl;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<ICustomerRepo, CustomerRepo>();
@@ -22,8 +20,10 @@ builder.Services.AddScoped<IOrderRepo, OrderRepo>();
 builder.Services.AddScoped<IServiceRepo, ServiceRepo>();
 
 builder.Services.AddScoped<ICustomerService, CustomerService>();
-builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IOrderService, OrderService>();                          //TODO
 builder.Services.AddScoped<IExecutorService, ExecutorService>();
+builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();              //TODO
+builder.Services.AddScoped<IServiceService, ServiceService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddAutoMapper(typeof(Program));
@@ -57,7 +57,6 @@ builder.Services.AddScoped<AppDbContext>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

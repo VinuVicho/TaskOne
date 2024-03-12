@@ -27,10 +27,10 @@ namespace TaskOne.Controllers
         }
 
 
-        [HttpGet("{executorId}"), Authorize]
+        [HttpGet("{executorId:int}"), Authorize]
         [ProducesResponseType(200, Type = typeof(ExecutorDto))]
         [ProducesResponseType(404)]
-        public ActionResult GetExecutor(int executorId)
+        public ActionResult<ExecutorDto> GetExecutor(int executorId)
         {
             var executor = executorService.GetExecutor(executorId);
             return Ok(executor);

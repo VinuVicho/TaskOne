@@ -15,7 +15,7 @@ namespace TaskOne.Services.Impl
 
         public CustomerDto CreateCustomer(CustomerDto customerDto)
         {
-            var resultCustomer = customerRepo.SaveCustomer(mapper.Map<Customer>(customerDto));
+            var resultCustomer = customerRepo.CreateCustomer(mapper.Map<Customer>(customerDto));
             return mapper.Map<CustomerDto>(resultCustomer);
         }
 
@@ -35,12 +35,10 @@ namespace TaskOne.Services.Impl
 
         public CustomerDto GetCustomerById(int customerId)
         {
-            var customer = customerRepo.GetCustomer(customerId);
-            if (customer == null)
-            {
-                throw new NotFoundException("Customer not found with id: " + customerId);
-            }
-            return mapper.Map<CustomerDto>(customer);
+            var customer = customerRepo.GetCustomerById(customerId);
+            return customer == null
+                ? throw new NotFoundException("Customer not found with id: " + customerId)
+                : mapper.Map<CustomerDto>(customer);
         }
     }
 }

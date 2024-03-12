@@ -10,12 +10,12 @@ namespace TaskOne.Models.Repositories.Impl
             return [.. context.Executors];
         }
 
-        public Executor GetExecutor(string Email)
+        public Executor GetExecutorByEmail(string Email)
         {
             return context.Executors.FirstOrDefault(e => e.Email == Email);
         }
 
-        public Executor GetExecutor(int executorId)
+        public Executor GetExecutorById(int executorId)
         {
             return context.Executors.Find(executorId);
         }
