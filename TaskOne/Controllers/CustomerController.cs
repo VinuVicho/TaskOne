@@ -28,7 +28,7 @@ namespace TaskOne.Controllers
 
         [HttpPost("create"), Authorize(Roles = "Executor")]
         [ProducesResponseType(200, Type = typeof(CustomerDto))]
-        public ActionResult<CustomerDto> CreateCustomer(CustomerDto request)
+        public ActionResult<CustomerDto> CreateCustomer(NewCustomerRequest request)
         {
             var customerDto = customerService.CreateCustomer(request);
             return Ok(customerDto);

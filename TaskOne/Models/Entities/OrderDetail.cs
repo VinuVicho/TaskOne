@@ -6,9 +6,8 @@ namespace TaskOne.Models.Entities
     {
         [Key]
         public int OrderDetailId { get; set; }
-        public int? OrderId { get; set; }
-        public int? ServiceId { get; set; }
+        public int OrderId { get; set; }
+        public int ServiceId { get; set; }
         public int Quantity { get; set; }
-
     }
 }

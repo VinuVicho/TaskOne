@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Azure.Core;
 using TaskOne.Exceptions;
 using TaskOne.Models.Dtos;
+using TaskOne.Models.Entities;
 using TaskOne.Models.Repositories;
 
 namespace TaskOne.Services.Impl
@@ -12,11 +14,13 @@ namespace TaskOne.Services.Impl
             return executorRepo.GetExecutors().Select(mapper.Map<ExecutorDto>).ToList();
         }
 
-        //public ExecutorDto UpdateExecutor(ExecutorDto executorDto)
-        //{
-        //    var resultExecutor = executorRepo.UpdateExecutor(mapper.Map<Executor>(executorDto));
-        //    return mapper.Map<ExecutorDto>(resultExecutor);
-        //}
+        public ExecutorDto UpdateExecutor(ExecutorUpdateRequest request)
+        {
+            var executor = mapper.Map<Executor>(request);
+            executor.PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
+            var resultExecutor = executorRepo.UpdateExecutor(executor);
+            return mapper.Map<ExecutorDto>(resultExecutor);
+        }
 
         public ExecutorDto GetExecutor(int executorId)
         {

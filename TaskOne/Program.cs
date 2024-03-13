@@ -15,14 +15,12 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<ICustomerRepo, CustomerRepo>();
 builder.Services.AddScoped<IExecutorRepo, ExecutorRepo>();
-builder.Services.AddScoped<IOrderDetailRepo, OrderDetailRepo>();
 builder.Services.AddScoped<IOrderRepo, OrderRepo>();
 builder.Services.AddScoped<IServiceRepo, ServiceRepo>();
 
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IOrderService, OrderService>();                          //TODO
 builder.Services.AddScoped<IExecutorService, ExecutorService>();
-builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();              //TODO
 builder.Services.AddScoped<IServiceService, ServiceService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 

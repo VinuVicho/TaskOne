@@ -13,7 +13,7 @@ namespace TaskOne.Services.Impl
             return customerRepo.GetCustomers().Select(mapper.Map<CustomerDto>).ToList();
         }
 
-        public CustomerDto CreateCustomer(CustomerDto customerDto)
+        public CustomerDto CreateCustomer(NewCustomerRequest customerDto)
         {
             var resultCustomer = customerRepo.CreateCustomer(mapper.Map<Customer>(customerDto));
             return mapper.Map<CustomerDto>(resultCustomer);

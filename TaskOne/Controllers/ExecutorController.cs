@@ -17,14 +17,14 @@ namespace TaskOne.Controllers
             return Ok(executors);
         }
 
-        //[HttpPut("update"), Authorize(Roles = "Executor")]
-        //[ProducesResponseType(200, Type = typeof(ExecutorDto))]
-        //[ProducesResponseType(404)]
-        //public ActionResult<ExecutorDto> UpdateExecutor(ExecutorDto request)
-        //{
-        //    var executorDto = executorService.UpdateExecutor(request);
-        //    return Ok(executorDto);
-        //}
+        [HttpPut("update"), Authorize(Roles = "Executor")]
+        [ProducesResponseType(200, Type = typeof(ExecutorDto))]
+        [ProducesResponseType(404)]
+        public ActionResult<ExecutorDto> UpdateExecutor(ExecutorUpdateRequest request)
+        {
+            var executorDto = executorService.UpdateExecutor(request);
+            return Ok(executorDto);
+        }
 
 
         [HttpGet("{executorId}"), Authorize]

@@ -1,14 +1,20 @@
 ﻿using TaskOne.Models.Dtos;
-using TaskOne.Models.Entities;
 
 namespace TaskOne.Services
 {
     public interface IOrderService
     {
         public ICollection<OrderDto> GetOrders();
-        public OrderDto GetOrder(int id);
-        public OrderDto UpdateOrder(OrderDto orderDto);
-        public OrderDto CreateOrder(OrderDto orderDto);
-        public void DeleteOrder(int id);
+        public ICollection<OrderDetailDto> GetOrderDetailsByOrderId(int orderId);
+        public OrderDto GetOrder(int orderId);
+        public OrderDetailDto GetOrderDetail(int orderDetailsId);
+        public OrderDto UpdateOrder(OrderRequest request);
+        public OrderDetailDto UpdateOrderDetail(OrderDetailDto request);
+        public OrderDto CreateOrder(OrderRequest request);
+        public void DeleteOrder(int orderId);
+        public void DeleteOrderDetails(int orderDetailsId);
+        //public OrderDto ChangeOrderStatus(int orderId, string status);
+        public OrderDetailDto AddOrderDetail(NewOrderDetailsRequest request);
+        OrderDto SubmitOrder(int orderId);
     }
 }
