@@ -11,7 +11,7 @@ namespace TaskOne.Controllers
     [ApiController]
     public class ServiceController(IServiceService service): ControllerBase
     {
-        [HttpGet("all"), Authorize]
+        [HttpGet("all")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<ServiceDto>))]
         public ActionResult<IEnumerable<ServiceDto>> GetAllServices()
         {
@@ -20,7 +20,7 @@ namespace TaskOne.Controllers
         }
 
 
-        [HttpGet("{serviceId:int}"), Authorize]
+        [HttpGet("{serviceId:int}")]
         [ProducesResponseType(200, Type = typeof(ServiceDto))]
         [ProducesResponseType(404)]
         public ActionResult<ServiceDto> GetService(int serviceId)

@@ -18,20 +18,20 @@ namespace TaskOne.Services.Impl
             return orderRepo.GetOrderDetailsByOrderId(orderId).Select(mapper.Map<OrderDetailDto>).ToList();
         }
 
-        public OrderDto GetOrder(int orderId)
+        public OrderFullyDto GetOrder(int orderId)
         {
             var order = orderRepo.GetOrderById(orderId);
             return order == null
                 ? throw new NotFoundException("Order was not found with id: " + orderId)
-                : mapper.Map<OrderDto>(order);
+                : mapper.Map<OrderFullyDto>(order);
         }
 
-        public OrderDetailDto GetOrderDetail(int orderDetailsId)
+        public OrderDetailWithServiceDto GetOrderDetail(int orderDetailsId)
         {
             var order = orderRepo.GetOrderDetailById(orderDetailsId);
             return order == null
                 ? throw new NotFoundException("OrderDetail was not found with id: " + orderDetailsId)
-                : mapper.Map<OrderDetailDto>(order);
+                : mapper.Map<OrderDetailWithServiceDto>(order);
         }
 
         public OrderDto UpdateOrder(OrderRequest request)

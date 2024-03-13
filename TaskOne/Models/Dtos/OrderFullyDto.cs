@@ -8,6 +8,6 @@
         public string Status { get; set; }
         public decimal TotalAmount { get; set; }
         public DateTime OrderDate { get; set; }
-        public List<OrderDetailDto> OrderDetails { get; set; }
+        public List<OrderDetailWithServiceDto> OrderDetails { get; set; }
     }
 }

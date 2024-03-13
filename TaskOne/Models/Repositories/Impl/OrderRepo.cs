@@ -36,12 +36,17 @@ namespace TaskOne.Models.Repositories.Impl
 
         public Order GetOrderById(int id)
         {
-            return context.Orders.Find(id);
+            return context.Orders
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Service)
+                .FirstOrDefault(o => o.OrderId == id);
         }
 
         public OrderDetail GetOrderDetailById(int id)
         {
-            return context.OrderDetails.Find(id);
+            return context.OrderDetails
+                .Include(od => od.Service)
+                .FirstOrDefault(od => od.OrderDetailId == id);
         }
 
         public OrderDetail CreateOrderDetail(OrderDetail orderDetail)

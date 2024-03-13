@@ -17,8 +17,10 @@ namespace TaskOne.Utils
             CreateMap<ExecutorUpdateRequest, Executor>();
 
             CreateMap<Order, OrderDto>().ReverseMap();
+            CreateMap<Order, OrderFullyDto>();
 
             CreateMap<OrderDetail, OrderDetailDto>().ReverseMap();
+            CreateMap<OrderDetail, OrderDetailWithServiceDto>();
             CreateMap<NewOrderDetailsRequest, OrderDetail>().ReverseMap();
 
             CreateMap<Service, ServiceDto>().ReverseMap();

@@ -21,9 +21,9 @@ namespace TaskOne.Controllers
         }
 
         [HttpGet("{orderId:int}"), Authorize]
-        [ProducesResponseType(200, Type = typeof(OrderDto))]
+        [ProducesResponseType(200, Type = typeof(OrderFullyDto))]
         [ProducesResponseType(404)]
-        public ActionResult<OrderDto> GetOrder(int orderId)
+        public ActionResult<OrderFullyDto> GetOrder(int orderId)
         {
             var order = orderService.GetOrder(orderId);
             return Ok(order);
@@ -41,9 +41,9 @@ namespace TaskOne.Controllers
 
 
         [HttpGet("details/{orderDetailId:int}"), Authorize]
-        [ProducesResponseType(200, Type = typeof(OrderDetailDto))]
+        [ProducesResponseType(200, Type = typeof(OrderDetailWithServiceDto))]
         [ProducesResponseType(404)]
-        public ActionResult<OrderDetailDto> GetOrderDetail(int orderDetailId)
+        public ActionResult<OrderDetailWithServiceDto> GetOrderDetail(int orderDetailId)
         {
             var order = orderService.GetOrderDetail(orderDetailId);
             return Ok(order);
