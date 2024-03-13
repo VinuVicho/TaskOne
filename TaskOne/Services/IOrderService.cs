@@ -13,7 +13,6 @@ namespace TaskOne.Services
         public OrderDto CreateOrder(OrderRequest request);
         public void DeleteOrder(int orderId);
         public void DeleteOrderDetails(int orderDetailsId);
-        //public OrderDto ChangeOrderStatus(int orderId, string status);
         public OrderDetailDto AddOrderDetail(NewOrderDetailsRequest request);
         OrderDto SubmitOrder(int orderId);
     }

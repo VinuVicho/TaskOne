@@ -17,6 +17,11 @@ namespace TaskOne.Middlewares
                 context.Response.StatusCode = (int)HttpStatusCode.NotFound;
                 await WriteErrorMessage(context, e);
             }
+            catch (BadRequestException e)
+            {
+                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                await WriteErrorMessage(context, e);
+            }
             catch (Exception e)
             {
                 logger.LogError(e.Message);

@@ -13,7 +13,7 @@ namespace TaskOne.Controllers
     {
 
         [HttpGet, Authorize]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Order>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<OrderDto>))]
         public ActionResult<IEnumerable<OrderDto>> GetOrders()
         {
             var orders = orderService.GetOrders();
@@ -75,7 +75,7 @@ namespace TaskOne.Controllers
             return Ok(customerDto);
         }
 
-        [HttpPut("details/update"), Authorize]
+        [HttpPut("details/update"), Authorize]      //TODO: dont update OrderId
         [ProducesResponseType(200, Type = typeof(OrderDetailDto))]
         [ProducesResponseType(404)]
         public ActionResult<OrderDetailDto> UpdateOrderDetail(OrderDetailDto request)

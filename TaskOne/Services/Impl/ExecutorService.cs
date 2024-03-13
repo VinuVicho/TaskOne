@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Azure.Core;
 using TaskOne.Exceptions;
 using TaskOne.Models.Dtos;
 using TaskOne.Models.Entities;

@@ -12,7 +12,7 @@ namespace TaskOne.Services.Impl
 {
     public class AuthService(IExecutorRepo executorRepo, IConfiguration configuration, IMapper mapper) : IAuthService
     {
-        /// <inheritdoc cref=""/>
+        /// <inheritdoc />
         public ExecutorDto RegisterExecutor(ExecutorRequestDto request)
         {
             var executor = mapper.Map<Executor>(request);
@@ -32,7 +32,7 @@ namespace TaskOne.Services.Impl
 
             if (!BCrypt.Net.BCrypt.Verify(loginRequest.Password, executor.PasswordHash))
             {
-                throw new BadHttpRequestException("Wrong password");
+                throw new BadRequestException("Wrong password");
             }
 
             string token = CreateToken(executor);
@@ -40,7 +40,7 @@ namespace TaskOne.Services.Impl
             return token;
         }
 
-         ///Creates JWT token, that has role same as class of applicant
+        ///Creates JWT token, that has role same as class of applicant
         private string CreateToken(Executor executor)
         {
             List<Claim> claims = new List<Claim>

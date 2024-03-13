@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TaskOne.Exceptions;
 using TaskOne.Models.Entities;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace TaskOne.Models.Repositories.Impl
 {
-    public class ServiceRepo(AppDbContext context) : IServiceRepo
+    public class ServiceRepo(AppDbContext context, IOrderRepo orderRepo) : IServiceRepo
     {
         public ICollection<Service> GetServices()
         {
@@ -16,21 +17,56 @@ namespace TaskOne.Models.Repositories.Impl
             return context.Services.Find(id);
         }
 
-        public bool DeleteService(int id)
+        public bool DeleteService(int serviceId)
         {
-            var rowsAffected = context.Services.Where(c => c.ServiceId == id).ExecuteDelete();
-            return rowsAffected != 0;
+            var service = context.Services.Find(serviceId);
+
+            if (service == null)
+            {
+                return false;
+            }
+
+            var orderDetails = context.OrderDetails
+                .Include(od => od.Order)
+                .Where(od => od.ServiceId == serviceId);
+            foreach (var od in orderDetails)
+            {
+                var order = od.Order;
+                order.TotalAmount -= (od.Quantity * service.Price);
+                context.Update(order);
+                context.OrderDetails.Remove(od);
+            }
+
+            context.Remove(service);
+            context.SaveChanges();
+            return true;
         }
 
         public Service UpdateService(Service service)
         {
             var toUpdate = context.Services.FirstOrDefault(c => c.ServiceId == service.ServiceId);
+
             if (toUpdate == null)
             {
                 throw new NotFoundException("Cannot update customer with id: " + service.ServiceId);
             }
+
+            if (service.Price != toUpdate.Price)
+            {
+                var orderDetails = context.OrderDetails
+                    .Include(od => od.Order)
+                    .Where(od => od.ServiceId == service.ServiceId);
+                foreach (var orderDetail in orderDetails)
+                {
+                    var order = orderDetail.Order;
+                    order.TotalAmount += -((toUpdate.Price - service.Price) * orderDetail.Quantity);
+                    context.Update(order);
+                }
+            }
+
             context.Entry(toUpdate).CurrentValues.SetValues(service);
-            context.SaveChanges();
+            context.SaveChanges();   
+
             return toUpdate;
         }
 
@@ -39,6 +75,11 @@ namespace TaskOne.Models.Repositories.Impl
             var result = context.Add(service).Entity;
             context.SaveChanges();
             return result;
+        }
+
+        private async void UpdatePrice()
+        {
+
         }
     }
 }

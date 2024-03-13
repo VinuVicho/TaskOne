@@ -53,6 +53,7 @@ namespace TaskOne.Services.Impl
                 ExecutorId = request.ExecutorId,
                 CustomerId = request.CustomerId,
                 Status = "In process",
+                TotalAmount = 0,
             };
             var savedOrder = orderRepo.CreateOrder(order);
             OrderDetail orderDetail = new OrderDetail
@@ -81,11 +82,6 @@ namespace TaskOne.Services.Impl
             }
         }
 
-        //public OrderDto ChangeOrderStatus(int orderId, string status)
-        //{
-        //    return mapper.Map<OrderDto>(orderRepo.UpdateOrderStatus(orderId, status));
-        //}
-
         public OrderDetailDto AddOrderDetail(NewOrderDetailsRequest request)
         {
             var result = orderRepo.CreateOrderDetail(mapper.Map<OrderDetail>(request));
@@ -94,7 +90,7 @@ namespace TaskOne.Services.Impl
 
         public OrderDto SubmitOrder(int orderId)
         {
-            return mapper.Map<OrderDto>(orderRepo.UpdateOrderStatus(orderId, "Submitted"));
+            return mapper.Map<OrderDto>(orderRepo.SubmitOrder(orderId));
         }
     }
 }

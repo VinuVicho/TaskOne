@@ -52,9 +52,10 @@ namespace TaskOne.Models.Repositories.Impl
         public OrderDetail CreateOrderDetail(OrderDetail orderDetail)
         {
             var odOrder = context.Orders.FirstOrDefault(o => o.OrderId == orderDetail.OrderId);
-            var odServiceExists = context.Services.Any(s => s.ServiceId == orderDetail.ServiceId);
-            if (odOrder != null && odServiceExists && odOrder.Status == "In process")
+            var odService = context.Services.FirstOrDefault(s => s.ServiceId == orderDetail.ServiceId);
+            if (odOrder != null && odService != null && odOrder.Status == "In process")
             {
+                odOrder.TotalAmount = odService.Price * orderDetail.Quantity + odOrder.TotalAmount;
                 var result = context.Add(orderDetail).Entity;
                 context.SaveChanges();
                 return result;
@@ -75,12 +76,12 @@ namespace TaskOne.Models.Repositories.Impl
             var odService = context.Services.FirstOrDefault(s => s.ServiceId == orderDetail.ServiceId);
             if (odOrder != null && odService != null && odOrder.Status == "In process")
             {
-                //if (orderDetail.Quantity != toUpdate.Quantity)        //TODO
-                //{
-                //    var priceDif = (orderDetail.Quantity - toUpdate.Quantity) * odService.Price;
-                //    odOrder.TotalAmount += priceDif;
-                //    context.Update(odOrder);
-                //}
+                if (orderDetail.Quantity != toUpdate.Quantity)
+                {
+                    var priceDif = (orderDetail.Quantity - toUpdate.Quantity) * odService.Price;
+                    odOrder.TotalAmount += priceDif;
+                    context.Update(odOrder);
+                }
                 context.Entry(toUpdate).CurrentValues.SetValues(orderDetail);
                 context.SaveChanges();
                 return toUpdate;
@@ -116,13 +117,17 @@ namespace TaskOne.Models.Repositories.Impl
 
         public bool DeleteOrderDetails(int id)
         {
-            var toDelete = context.OrderDetails.FirstOrDefault(o => o.OrderDetailId == id);
+            var toDelete = context.OrderDetails
+                .Include(od => od.Service)
+                .FirstOrDefault(o => o.OrderDetailId == id);
             if (toDelete == null)
             {
                 return false;
             }
 
-            //var order = context.Orders.Find(toDelete.OrderId).TotalAmount = ;      //FIXME: after db update
+            var order = context.Orders.FirstOrDefault(o => o.OrderId == toDelete.OrderId);
+            order.TotalAmount -= toDelete.Quantity * toDelete.Service.Price;
+            context.Update(order);
 
             context.OrderDetails.Remove(toDelete);
             context.SaveChanges();
@@ -140,6 +145,19 @@ namespace TaskOne.Models.Repositories.Impl
             context.SaveChanges();
             return order;
 
+        }
+
+        public Order SubmitOrder(int orderId)
+        {
+            var order = context.Orders.FirstOrDefault(o => o.OrderId == orderId);
+            if (order == null)
+            {
+                throw new NotFoundException("No order with id: " + orderId);
+            }
+            order.Status = "Submitted";
+            order.OrderDate = DateTime.Now;
+            context.SaveChanges();
+            return order;
         }
     }
 }

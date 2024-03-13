@@ -9,5 +9,6 @@ namespace TaskOne.Models.Entities
         public string Name { get; set; }
         public string Email { get; set; }
         public string PasswordHash { get; set; }
+        public virtual List<Order>? Orders { get; set; }
     }
 }

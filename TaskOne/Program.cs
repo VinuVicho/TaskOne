@@ -19,7 +19,7 @@ builder.Services.AddScoped<IOrderRepo, OrderRepo>();
 builder.Services.AddScoped<IServiceRepo, ServiceRepo>();
 
 builder.Services.AddScoped<ICustomerService, CustomerService>();
-builder.Services.AddScoped<IOrderService, OrderService>();                          //TODO
+builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IExecutorService, ExecutorService>();
 builder.Services.AddScoped<IServiceService, ServiceService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
