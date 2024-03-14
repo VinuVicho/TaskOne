@@ -34,8 +34,11 @@ namespace TaskOne.Models.Repositories.Impl
             foreach (var od in orderDetails)
             {
                 var order = od.Order;
-                order.TotalAmount -= (od.Quantity * service.Price);
-                context.Update(order);
+                if (order.Status == "In process")
+                {
+                    order.TotalAmount -= (od.Quantity * service.Price);
+                    context.Update(order);
+                }
                 context.OrderDetails.Remove(od);
             }
 
@@ -62,8 +65,11 @@ namespace TaskOne.Models.Repositories.Impl
                 foreach (var orderDetail in orderDetails)
                 {
                     var order = orderDetail.Order;
-                    order.TotalAmount += -((toUpdate.Price - service.Price) * orderDetail.Quantity);
-                    context.Update(order);
+                    if (order.Status == "In process")
+                    {
+                        order.TotalAmount += -((toUpdate.Price - service.Price) * orderDetail.Quantity);
+                        context.Update(order);
+                    }
                 }
             }
 

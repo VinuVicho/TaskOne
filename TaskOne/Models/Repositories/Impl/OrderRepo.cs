@@ -158,8 +158,11 @@ namespace TaskOne.Models.Repositories.Impl
             }
 
             var order = context.Orders.FirstOrDefault(o => o.OrderId == toDelete.OrderId);
-            order.TotalAmount -= toDelete.Quantity * toDelete.Service.Price;
-            context.Update(order);
+            if (order.Status == "In process")
+            {
+                order.TotalAmount -= toDelete.Quantity * toDelete.Service.Price;
+                context.Update(order);
+            }
 
             context.OrderDetails.Remove(toDelete);
             context.SaveChanges();
