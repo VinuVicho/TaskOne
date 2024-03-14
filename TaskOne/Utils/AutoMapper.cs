@@ -18,6 +18,7 @@ namespace TaskOne.Utils
 
             CreateMap<Order, OrderDto>().ReverseMap();
             CreateMap<Order, OrderFullyDto>();
+            CreateMap<OrderUpdateDto, Order>();
 
             CreateMap<OrderDetail, OrderDetailDto>().ReverseMap();
             CreateMap<OrderDetail, OrderDetailWithServiceDto>();

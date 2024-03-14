@@ -67,7 +67,7 @@ namespace TaskOne.Controllers
         [HttpPut("update"), Authorize]
         [ProducesResponseType(200, Type = typeof(OrderDto))]
         [ProducesResponseType(404)]
-        public ActionResult<OrderDto> UpdateOrder(OrderRequest request)
+        public ActionResult<OrderDto> UpdateOrder(OrderUpdateDto request)
         {
             var customerDto = orderService.UpdateOrder(request);
             return Ok(customerDto);

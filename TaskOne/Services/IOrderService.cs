@@ -8,7 +8,7 @@ namespace TaskOne.Services
         public ICollection<OrderDetailDto> GetOrderDetailsByOrderId(int orderId);
         public OrderFullyDto GetOrder(int orderId);
         public OrderDetailWithServiceDto GetOrderDetail(int orderDetailsId);
-        public OrderDto UpdateOrder(OrderRequest request);
+        public OrderDto UpdateOrder(OrderUpdateDto request);
         public OrderDetailDto UpdateOrderDetail(OrderDetailDto request);
         public OrderDto CreateOrder(OrderRequest request);
         public void DeleteOrder(int orderId);

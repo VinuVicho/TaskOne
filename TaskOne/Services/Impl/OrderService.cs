@@ -34,7 +34,7 @@ namespace TaskOne.Services.Impl
                 : mapper.Map<OrderDetailWithServiceDto>(order);
         }
 
-        public OrderDto UpdateOrder(OrderRequest request)
+        public OrderDto UpdateOrder(OrderUpdateDto request)
         {
             var result = orderRepo.UpdateOrder(mapper.Map<Order>(request));
             return mapper.Map<OrderDto>(result);
