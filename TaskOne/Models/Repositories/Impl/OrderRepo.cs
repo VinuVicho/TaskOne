@@ -21,6 +21,16 @@ namespace TaskOne.Models.Repositories.Impl
             return [.. context.OrderDetails.Where(od => od.OrderId == orderId)];
         }
 
+        public ICollection<Order> GetOrdersForCustomerId(int customerId)
+        {
+            return [.. context.Orders.Where(o => o.CustomerId == customerId)];
+        }
+
+        public ICollection<Order> GetOrdersForExecutorId(int executorId)
+        {
+            return [.. context.Orders.Where(o => o.ExecutorId == executorId)];
+        }
+
         public Order CreateOrder(Order order)
         {
             var oCustomerExists = context.Customers.Any(c => c.CustomerId == order.CustomerId);

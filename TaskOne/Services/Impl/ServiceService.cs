@@ -27,7 +27,7 @@ namespace TaskOne.Services.Impl
             return mapper.Map<ServiceDto>(resultService);
         }
 
-        public ServiceDto CreateService(ServiceDto serviceDto)
+        public ServiceDto CreateService(ServiceCreateRequest serviceDto)
         {
             var resultService = serviceRepo.CreateService(mapper.Map<Service>(serviceDto));
             return mapper.Map<ServiceDto>(resultService);

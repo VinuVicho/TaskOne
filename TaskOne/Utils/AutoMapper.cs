@@ -9,7 +9,7 @@ namespace TaskOne.Utils
         public AutoMapper()
         {
             CreateMap<Customer, CustomerDto>().ReverseMap();
-            CreateMap<NewCustomerRequest, Customer>();
+            CreateMap<CustomerCreateRequest, Customer>();
 
             CreateMap<Executor, ExecutorRequestDto>().ReverseMap();
             CreateMap<Executor, ExecutorDto>().ReverseMap();
@@ -21,9 +21,10 @@ namespace TaskOne.Utils
 
             CreateMap<OrderDetail, OrderDetailDto>().ReverseMap();
             CreateMap<OrderDetail, OrderDetailWithServiceDto>();
-            CreateMap<NewOrderDetailsRequest, OrderDetail>().ReverseMap();
+            CreateMap<OrderDetailsCreateRequest, OrderDetail>();
 
             CreateMap<Service, ServiceDto>().ReverseMap();
+            CreateMap<ServiceCreateRequest, Service>();
         }
     }
 }

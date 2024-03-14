@@ -8,7 +8,7 @@ namespace TaskOne.Services
         public ICollection<ServiceDto> GetServices();
         public ServiceDto GetService(int serviceId);
         public ServiceDto UpdateService(ServiceDto serviceDto);
-        public ServiceDto CreateService(ServiceDto serviceDto);
+        public ServiceDto CreateService(ServiceCreateRequest serviceDto);
         public void DeleteService(int serviceId);
     }
 }

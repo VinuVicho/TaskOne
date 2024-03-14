@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TaskOne.Exceptions;
 using TaskOne.Models.Entities;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace TaskOne.Models.Repositories.Impl
 {

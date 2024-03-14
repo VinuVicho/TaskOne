@@ -5,7 +5,7 @@ namespace TaskOne.Services
     public interface ICustomerService
     {
         public ICollection<CustomerDto> GetCustomers();
-        public CustomerDto CreateCustomer(NewCustomerRequest customerDto);
+        public CustomerDto CreateCustomer(CustomerCreateRequest customerDto);
         public CustomerDto UpdateCustomer(CustomerDto customerDto);
         public void DeleteCustomer(int customerId);
         public CustomerDto GetCustomerById(int customerId);

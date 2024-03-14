@@ -1,6 +1,6 @@
 ﻿namespace TaskOne.Models.Dtos
 {
-    public class NewOrderDetailsRequest
+    public class OrderDetailsCreateRequest
     {
         public int OrderId { get; set; }
         public int ServiceId { get; set; }

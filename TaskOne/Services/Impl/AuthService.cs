@@ -22,6 +22,7 @@ namespace TaskOne.Services.Impl
             return mapper.Map<ExecutorDto>(savedExecutor);
         }
 
+        /// <inheritdoc />
         public string Login(ExecutorLoginDto loginRequest)
         {
             var executor = executorRepo.GetExecutorByEmail(loginRequest.Email);

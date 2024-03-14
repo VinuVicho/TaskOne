@@ -82,7 +82,7 @@ namespace TaskOne.Services.Impl
             }
         }
 
-        public OrderDetailDto AddOrderDetail(NewOrderDetailsRequest request)
+        public OrderDetailDto AddOrderDetail(OrderDetailsCreateRequest request)
         {
             var result = orderRepo.CreateOrderDetail(mapper.Map<OrderDetail>(request));
             return mapper.Map<OrderDetailDto>(result);
@@ -91,6 +91,16 @@ namespace TaskOne.Services.Impl
         public OrderDto SubmitOrder(int orderId)
         {
             return mapper.Map<OrderDto>(orderRepo.SubmitOrder(orderId));
+        }
+
+        public ICollection<OrderDto> GetOrdersForCustomer(int customerId)
+        {
+            return orderRepo.GetOrdersForCustomerId(customerId).Select(mapper.Map<OrderDto>).ToList();
+        }
+
+        public ICollection<OrderDto> GetOrdersForExecutor(int executorId)
+        {
+            return orderRepo.GetOrdersForExecutorId(executorId).Select(mapper.Map<OrderDto>).ToList();
         }
     }
 }

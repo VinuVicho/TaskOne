@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskOne.Models.Dtos;
-using TaskOne.Models.Entities;
 using TaskOne.Services;
-using TaskOne.Services.Impl;
 
 namespace TaskOne.Controllers
 {
@@ -60,7 +58,7 @@ namespace TaskOne.Controllers
 
         [HttpPost("details"), Authorize]
         [ProducesResponseType(200, Type = typeof(OrderDetailDto))]
-        public ActionResult<OrderDetailDto> AddOrderDetail(NewOrderDetailsRequest request)
+        public ActionResult<OrderDetailDto> AddOrderDetail(OrderDetailsCreateRequest request)
         {
             var order = orderService.AddOrderDetail(request);
             return Ok(order);
@@ -109,6 +107,22 @@ namespace TaskOne.Controllers
         {
             var response = orderService.SubmitOrder(orderId);
             return Ok(response);
+        }
+
+        [HttpGet("forCustomer/{customerId:int}"), Authorize]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<OrderDto>))]
+        public ActionResult<IEnumerable<OrderDto>> GetOrderForCustomer(int customerId)
+        {
+            var result = orderService.GetOrdersForCustomer(customerId);
+            return Ok(result);
+        }
+
+        [HttpGet("forExecutor/{executorId:int}"), Authorize]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<OrderDto>))]
+        public ActionResult<IEnumerable<OrderDto>> GetOrderForExecutor(int executorId)
+        {
+            var result = orderService.GetOrdersForCustomer(executorId);
+            return Ok(result);
         }
     }
 }

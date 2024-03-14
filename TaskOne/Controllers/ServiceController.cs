@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskOne.Models.Dtos;
-using TaskOne.Models.Entities;
 using TaskOne.Services;
-using TaskOne.Services.Impl;
 
 namespace TaskOne.Controllers
 {
@@ -31,7 +29,7 @@ namespace TaskOne.Controllers
 
         [HttpPost("create"), Authorize(Roles = "Executor")]
         [ProducesResponseType(200, Type = typeof(ServiceDto))]
-        public ActionResult<ServiceDto> CreateService(ServiceDto request)
+        public ActionResult<ServiceDto> CreateService(ServiceCreateRequest request)
         {
             var serviceDto = service.CreateService(request);
             return Ok(serviceDto);

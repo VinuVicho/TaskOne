@@ -22,5 +22,7 @@ namespace TaskOne.Models.Repositories
         bool DeleteOrderDetails(int orderDetailId);
         Order UpdateOrderStatus(int orderId, string status);
         Order SubmitOrder(int orderId);
+        ICollection<Order> GetOrdersForCustomerId(int customerId);
+        ICollection<Order> GetOrdersForExecutorId(int executorId);
     }
 }
