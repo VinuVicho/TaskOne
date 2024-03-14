@@ -56,13 +56,15 @@ namespace TaskOne.Services.Impl
                 TotalAmount = 0,
             };
             var savedOrder = orderRepo.CreateOrder(order);
-            OrderDetail orderDetail = new OrderDetail
-            {
-                OrderId = savedOrder.OrderId,
-                ServiceId = request.ServiceId,
-                Quantity = request.Quantity
-            };
-            orderRepo.CreateOrderDetail(orderDetail);
+            var orderDetailsList = request.orderDetails
+                .Select(orderDetail => new OrderDetail
+                {
+                    OrderId = savedOrder.OrderId,
+                    Quantity = orderDetail.Quantity,
+                    ServiceId = orderDetail.ServiceId,
+                })
+                .ToList();
+            orderRepo.CreateOrderDetails(orderDetailsList);
             return mapper.Map<OrderDto>(savedOrder);
         }
 
@@ -82,10 +84,23 @@ namespace TaskOne.Services.Impl
             }
         }
 
-        public OrderDetailDto AddOrderDetail(OrderDetailsCreateRequest request)
+        public List<OrderDetailDto> AddOrderDetails(OrderDetailRequest request)
         {
-            var result = orderRepo.CreateOrderDetail(mapper.Map<OrderDetail>(request));
-            return mapper.Map<OrderDetailDto>(result);
+            if (request.OrderDetails.Count == 0)
+            {
+                return [];
+            }
+            var orderDetailsList = request.OrderDetails
+                .Select(orderDetail => new OrderDetail
+                {
+                    OrderId = request.OrderId, 
+                    Quantity = orderDetail.Quantity, 
+                    ServiceId = orderDetail.ServiceId,
+                })
+                .ToList();
+            
+            var result = orderRepo.CreateOrderDetails(orderDetailsList);
+            return result.Select(mapper.Map<OrderDetailDto>).ToList();
         }
 
         public OrderDto SubmitOrder(int orderId)

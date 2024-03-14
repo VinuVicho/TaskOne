@@ -9,13 +9,13 @@ namespace TaskOne.Models.Repositories
         /// Method to return all Services
         /// </summary>
         /// <returns>List of Services</returns>
-        ICollection<Service> GetServices();
+        public ICollection<Service> GetServices();
         /// <summary>
         /// Method to get Specific Service
         /// </summary>
         /// <param name="id">Id of requested Service</param>
         /// <returns>ServiceDto with requested Id or null if not exists</returns>
-        Service GetServiceById(int id);
+        public Service GetServiceById(int id);
         /// <summary>
         /// Method to update Service. 
         /// </summary>
@@ -23,19 +23,19 @@ namespace TaskOne.Models.Repositories
         /// <param name="service">Service to Update</param>
         /// <exception cref="NotFoundException">If there is no Service with Id</exception>
         /// <returns>Updated ServiceDto</returns>
-        Service UpdateService(Service service);
+        public Service UpdateService(Service service);
         /// <summary>
         /// Method to create new Service.
         /// </summary>
         /// <param name="service">Service to create</param>
         /// <returns>Created Service</returns>
-        Service CreateService(Service service);
+        public Service CreateService(Service service);
         /// <summary>
         /// Method to delete specific Service and connected <see cref="OrderDetail"/>
         /// </summary>
         /// <remarks>Also updates price of <see cref="Order"/> that had this Service</remarks>
         /// <param name="serviceId">Id of Service to delete</param>
         /// <returns>false if there is nothing to delete, otherwise true</returns>
-        bool DeleteService(int serviceId);
+        public bool DeleteService(int serviceId);
     }
 }

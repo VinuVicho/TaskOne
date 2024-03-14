@@ -57,10 +57,10 @@ namespace TaskOne.Controllers
 
 
         [HttpPost("details"), Authorize]
-        [ProducesResponseType(200, Type = typeof(OrderDetailDto))]
-        public ActionResult<OrderDetailDto> AddOrderDetail(OrderDetailsCreateRequest request)
+        [ProducesResponseType(200, Type = typeof(List<OrderDetailDto>))]
+        public ActionResult<List<OrderDetailDto>> AddOrderDetail(OrderDetailRequest request)
         {
-            var order = orderService.AddOrderDetail(request);
+            var order = orderService.AddOrderDetails(request);
             return Ok(order);
         }
 

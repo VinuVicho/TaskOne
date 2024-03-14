@@ -1,6 +1,4 @@
-﻿using TaskOne.Models.Entities;
-
-namespace TaskOne.Models.Dtos
+﻿namespace TaskOne.Models.Dtos
 {
     public class OrderDetailWithServiceDto
     {

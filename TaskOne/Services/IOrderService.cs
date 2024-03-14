@@ -4,18 +4,18 @@ namespace TaskOne.Services
 {
     public interface IOrderService
     {
-        ICollection<OrderDto> GetOrders();
-        ICollection<OrderDetailDto> GetOrderDetailsByOrderId(int orderId);
-        OrderFullyDto GetOrder(int orderId);
-        OrderDetailWithServiceDto GetOrderDetail(int orderDetailsId);
-        OrderDto UpdateOrder(OrderRequest request);
-        OrderDetailDto UpdateOrderDetail(OrderDetailDto request);
-        OrderDto CreateOrder(OrderRequest request);
-        void DeleteOrder(int orderId);
-        void DeleteOrderDetails(int orderDetailsId);
-        OrderDetailDto AddOrderDetail(OrderDetailsCreateRequest request);
-        OrderDto SubmitOrder(int orderId);
-        ICollection<OrderDto> GetOrdersForCustomer(int customerId);
-        ICollection<OrderDto> GetOrdersForExecutor(int executorId);
+        public ICollection<OrderDto> GetOrders();
+        public ICollection<OrderDetailDto> GetOrderDetailsByOrderId(int orderId);
+        public OrderFullyDto GetOrder(int orderId);
+        public OrderDetailWithServiceDto GetOrderDetail(int orderDetailsId);
+        public OrderDto UpdateOrder(OrderRequest request);
+        public OrderDetailDto UpdateOrderDetail(OrderDetailDto request);
+        public OrderDto CreateOrder(OrderRequest request);
+        public void DeleteOrder(int orderId);
+        public void DeleteOrderDetails(int orderDetailsId);
+        public List<OrderDetailDto> AddOrderDetails(OrderDetailRequest request);
+        public OrderDto SubmitOrder(int orderId);
+        public ICollection<OrderDto> GetOrdersForCustomer(int customerId);
+        public ICollection<OrderDto> GetOrdersForExecutor(int executorId);
     }
 }

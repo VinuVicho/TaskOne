@@ -73,6 +73,28 @@ namespace TaskOne.Models.Repositories.Impl
             throw new BadRequestException("Invalid fields");
         }
 
+        public List<OrderDetail> CreateOrderDetails(List<OrderDetail> orderDetail)
+        {
+            int orderId = orderDetail[0].OrderId;
+            var odOrder = context.Orders.FirstOrDefault(o => o.OrderId == orderId);
+            if (odOrder != null && odOrder.Status == "In process")
+            {
+                var result = new List<OrderDetail>();
+                foreach (var od in orderDetail)
+                {
+                    var odService = context.Services.FirstOrDefault(s => s.ServiceId == od.ServiceId);
+                    if (odService != null)
+                    {
+                        odOrder.TotalAmount = odService.Price * od.Quantity + odOrder.TotalAmount;
+                        result.Add(context.Add(od).Entity);
+                    }
+                }
+                context.SaveChanges();
+                return result;
+            }
+            throw new BadRequestException("Invalid orderId");
+        }
+
         public OrderDetail UpdateOrderDetail(OrderDetail orderDetail)
         {
             var toUpdate = context.OrderDetails

@@ -4,7 +4,6 @@
     {
         public int CustomerId { get; set; }
         public int ExecutorId { get; set; }
-        public int ServiceId { get; set; }
-        public int Quantity { get; set; }
+        public List<OrderDetailsForOrderRequest> orderDetails { get; set; }
     }
 }
