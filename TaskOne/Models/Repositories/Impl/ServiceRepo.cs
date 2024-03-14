@@ -6,16 +6,19 @@ namespace TaskOne.Models.Repositories.Impl
 {
     public class ServiceRepo(AppDbContext context, IOrderRepo orderRepo) : IServiceRepo
     {
+        /// <inheritdoc />
         public ICollection<Service> GetServices()
         {
             return [.. context.Services];
         }
 
+        /// <inheritdoc />
         public Service GetServiceById(int id)
         {
             return context.Services.Find(id);
         }
 
+        /// <inheritdoc />
         public bool DeleteService(int serviceId)
         {
             var service = context.Services.Find(serviceId);
@@ -41,6 +44,7 @@ namespace TaskOne.Models.Repositories.Impl
             return true;
         }
 
+        /// <inheritdoc />
         public Service UpdateService(Service service)
         {
             var toUpdate = context.Services.FirstOrDefault(c => c.ServiceId == service.ServiceId);
@@ -69,16 +73,12 @@ namespace TaskOne.Models.Repositories.Impl
             return toUpdate;
         }
 
+        /// <inheritdoc />
         public Service CreateService(Service service)
         {
             var result = context.Add(service).Entity;
             context.SaveChanges();
             return result;
-        }
-
-        private async void UpdatePrice()
-        {
-
         }
     }
 }
