@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using TaskOne.Exceptions;
+﻿using TaskOne.Exceptions;
 using TaskOne.Models.Entities;
 
 namespace TaskOne.Models.Repositories.Impl
@@ -19,64 +18,54 @@ namespace TaskOne.Models.Repositories.Impl
         }
 
         /// <inheritdoc />
-        public bool DeleteService(int serviceId)
+        public HashSet<int> DeleteService(int serviceId)
         {
             var service = context.Services.Find(serviceId);
 
             if (service == null)
             {
-                return false;
+                throw new NotFoundException("There already no Service with Id: " + serviceId);
             }
 
+            var orderIds = new HashSet<int>();
             var orderDetails = context.OrderDetails
-                .Include(od => od.Order)
                 .Where(od => od.ServiceId == serviceId);
             foreach (var od in orderDetails)
             {
-                var order = od.Order;
-                if (order.Status == "In process")
-                {
-                    order.TotalAmount -= (od.Quantity * service.Price);
-                    context.Update(order);
-                }
+                orderIds.Add(od.OrderId);
                 context.OrderDetails.Remove(od);
             }
 
             context.Remove(service);
             context.SaveChanges();
-            return true;
+            return orderIds;
         }
 
         /// <inheritdoc />
-        public Service UpdateService(Service service)
+        public (Service, HashSet<int>) UpdateService(Service service)
         {
             var toUpdate = context.Services.FirstOrDefault(c => c.ServiceId == service.ServiceId);
 
             if (toUpdate == null)
             {
-                throw new NotFoundException("Cannot update customer with id: " + service.ServiceId);
+                throw new NotFoundException("Cannot update service with id: " + service.ServiceId);
             }
 
+            var orderIds = new HashSet<int>();
             if (service.Price != toUpdate.Price)
             {
                 var orderDetails = context.OrderDetails
-                    .Include(od => od.Order)
                     .Where(od => od.ServiceId == service.ServiceId);
-                foreach (var orderDetail in orderDetails)
+                foreach (var od in orderDetails)
                 {
-                    var order = orderDetail.Order;
-                    if (order.Status == "In process")
-                    {
-                        order.TotalAmount += -((toUpdate.Price - service.Price) * orderDetail.Quantity);
-                        context.Update(order);
-                    }
+                    orderIds.Add(od.OrderId);
                 }
             }
 
             context.Entry(toUpdate).CurrentValues.SetValues(service);
             context.SaveChanges();   
 
-            return toUpdate;
+            return (toUpdate, orderIds);
         }
 
         /// <inheritdoc />

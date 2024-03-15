@@ -11,6 +11,7 @@ namespace TaskOne.Services
         /// </summary>
         /// <returns>List of all Services</returns>
         public ICollection<ServiceDto> GetServices();
+
         /// <summary>
         /// Method to get specific Service
         /// </summary>
@@ -18,6 +19,7 @@ namespace TaskOne.Services
         /// <exception cref="NotFoundException"></exception>
         /// <returns>ServiceDto with requested Id</returns>
         public ServiceDto GetService(int serviceId);
+
         /// <summary>
         /// Method to update Service. Updates Service with Id in Dto.
         /// </summary>
@@ -25,12 +27,14 @@ namespace TaskOne.Services
         /// <exception cref="NotFoundException">If there is no Service with Id</exception>
         /// <returns>Updated ServiceDto</returns>
         public ServiceDto UpdateService(ServiceDto serviceDto);
+
         /// <summary>
         /// Method to create new Service.
         /// </summary>
         /// <param name="serviceDto">Service to create</param>
         /// <returns>Created ServiceDto</returns>
         public ServiceDto CreateService(ServiceCreateRequest serviceDto);
+
         /// <summary>
         /// Method to delete specific Service
         /// </summary>

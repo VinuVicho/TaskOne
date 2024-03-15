@@ -47,6 +47,7 @@ namespace TaskOne.Models.Repositories.Impl
         public Order GetOrderById(int id)
         {
             return context.Orders
+                .AsNoTracking()
                 .Include(o => o.OrderDetails)
                     .ThenInclude(od => od.Service)
                 .FirstOrDefault(o => o.OrderId == id);
@@ -55,44 +56,24 @@ namespace TaskOne.Models.Repositories.Impl
         public OrderDetail GetOrderDetailById(int id)
         {
             return context.OrderDetails
+                .AsNoTracking()
                 .Include(od => od.Service)
                 .FirstOrDefault(od => od.OrderDetailId == id);
         }
 
-        public OrderDetail CreateOrderDetail(OrderDetail orderDetail)
-        {
-            var odOrder = context.Orders.FirstOrDefault(o => o.OrderId == orderDetail.OrderId);
-            var odService = context.Services.FirstOrDefault(s => s.ServiceId == orderDetail.ServiceId);
-            if (odOrder != null && odService != null && odOrder.Status == "In process")
-            {
-                odOrder.TotalAmount = odService.Price * orderDetail.Quantity + odOrder.TotalAmount;
-                var result = context.Add(orderDetail).Entity;
-                context.SaveChanges();
-                return result;
-            }
-            throw new BadRequestException("Invalid fields");
-        }
-
         public List<OrderDetail> CreateOrderDetails(List<OrderDetail> orderDetail)
         {
-            int orderId = orderDetail[0].OrderId;
-            var odOrder = context.Orders.FirstOrDefault(o => o.OrderId == orderId);
-            if (odOrder != null && odOrder.Status == "In process")
+            var result = new List<OrderDetail>();
+            foreach (var od in orderDetail)
             {
-                var result = new List<OrderDetail>();
-                foreach (var od in orderDetail)
+                var odService = context.Services.FirstOrDefault(s => s.ServiceId == od.ServiceId);
+                if (odService != null)
                 {
-                    var odService = context.Services.FirstOrDefault(s => s.ServiceId == od.ServiceId);
-                    if (odService != null)
-                    {
-                        odOrder.TotalAmount = odService.Price * od.Quantity + odOrder.TotalAmount;
-                        result.Add(context.Add(od).Entity);
-                    }
+                    result.Add(context.Add(od).Entity);
                 }
-                context.SaveChanges();
-                return result;
             }
-            throw new BadRequestException("Invalid orderId");
+            context.SaveChanges();
+            return result;
         }
 
         public OrderDetail UpdateOrderDetail(OrderDetail orderDetail)
@@ -104,21 +85,9 @@ namespace TaskOne.Models.Repositories.Impl
                 throw new NotFoundException("Cannot update OrderDetails with id: " + orderDetail.OrderDetailId);
             }
 
-            var odOrder = context.Orders.FirstOrDefault(o => o.OrderId == orderDetail.OrderId);
-            var odService = context.Services.FirstOrDefault(s => s.ServiceId == orderDetail.ServiceId);
-            if (odOrder != null && odService != null && odOrder.Status == "In process")
-            {
-                if (orderDetail.Quantity != toUpdate.Quantity)
-                {
-                    var priceDif = (orderDetail.Quantity - toUpdate.Quantity) * odService.Price;
-                    odOrder.TotalAmount += priceDif;
-                    context.Update(odOrder);
-                }
-                context.Entry(toUpdate).CurrentValues.SetValues(orderDetail);
-                context.SaveChanges();
-                return toUpdate;
-            }
-            throw new BadRequestException("Invalid fields");
+            context.Entry(toUpdate).CurrentValues.SetValues(orderDetail);
+            context.SaveChanges();
+            return toUpdate;
         }
 
         public Order UpdateOrder(Order order)
@@ -147,39 +116,10 @@ namespace TaskOne.Models.Repositories.Impl
             return rowsAffected != 0;
         }
 
-        public bool DeleteOrderDetails(int id)
+        public bool DeleteOrderDetails(int orderDetailsId)
         {
-            var toDelete = context.OrderDetails
-                .Include(od => od.Service)
-                .FirstOrDefault(o => o.OrderDetailId == id);
-            if (toDelete == null)
-            {
-                return false;
-            }
-
-            var order = context.Orders.FirstOrDefault(o => o.OrderId == toDelete.OrderId);
-            if (order.Status == "In process")
-            {
-                order.TotalAmount -= toDelete.Quantity * toDelete.Service.Price;
-                context.Update(order);
-            }
-
-            context.OrderDetails.Remove(toDelete);
-            context.SaveChanges();
-            return true;
-        }
-
-        public Order UpdateOrderStatus(int orderId, string status)
-        {
-            var order = context.Orders.FirstOrDefault(o => o.OrderId == orderId);
-            if (order == null)
-            {
-                throw new NotFoundException("No order with id: " + orderId);
-            }
-            order.Status = status;
-            context.SaveChanges();
-            return order;
-
+            var rowsAffected = context.OrderDetails.Where(od => od.OrderDetailId == orderDetailsId).ExecuteDelete();
+            return rowsAffected != 0;
         }
 
         public Order SubmitOrder(int orderId)
@@ -193,6 +133,13 @@ namespace TaskOne.Models.Repositories.Impl
             order.OrderDate = DateTime.Now;
             context.SaveChanges();
             return order;
+        }
+
+        public void SetOrderPrice(int orderId, decimal price)
+        {
+            var order = context.Orders.FirstOrDefault(o => o.OrderId == orderId)!;
+            order.TotalAmount = price;
+            context.SaveChanges();
         }
     }
 }

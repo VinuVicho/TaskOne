@@ -10,32 +10,37 @@ namespace TaskOne.Models.Repositories
         /// </summary>
         /// <returns>List of Services</returns>
         public ICollection<Service> GetServices();
+
         /// <summary>
         /// Method to get Specific Service
         /// </summary>
         /// <param name="id">Id of requested Service</param>
-        /// <returns>ServiceDto with requested Id or null if not exists</returns>
+        /// <returns>Service with requested Id or null if not exists</returns>
         public Service GetServiceById(int id);
+
         /// <summary>
-        /// Method to update Service. 
+        /// Method to update Service.
         /// </summary>
-        /// <remarks>Also price of <see cref="Order"/> that has this Service</remarks>
-        /// <param name="service">Service to Update</param>
-        /// <exception cref="NotFoundException">If there is no Service with Id</exception>
-        /// <returns>Updated ServiceDto</returns>
-        public Service UpdateService(Service service);
+        /// <remarks>Also returns Id of <see cref="Order"/>s that has this Service</remarks>
+        /// <exception cref="NotFoundException">If Service not exists</exception>
+        /// <param name="service"></param>
+        /// <returns>Updated Service, Set of <see cref="Order"/>.OrderId (to update)</returns>
+        public (Service, HashSet<int>) UpdateService(Service service);
+
         /// <summary>
-        /// Method to create new Service.
+        /// Method to create new <see cref="Service"/>.
         /// </summary>
         /// <param name="service">Service to create</param>
         /// <returns>Created Service</returns>
         public Service CreateService(Service service);
+
         /// <summary>
-        /// Method to delete specific Service and connected <see cref="OrderDetail"/>
+        /// Method to delete specific <see cref="Service"/> and connected <see cref="OrderDetail"/>
         /// </summary>
-        /// <remarks>Also updates price of <see cref="Order"/> that had this Service</remarks>
+        /// <remarks>Also returns Id of <see cref="Order"/>s that has this Service</remarks>
+        /// <exception cref="NotFoundException">If Service already does not exist</exception>
         /// <param name="serviceId">Id of Service to delete</param>
-        /// <returns>false if there is nothing to delete, otherwise true</returns>
-        public bool DeleteService(int serviceId);
+        /// <returns>Set of <see cref="Order"/>.OrderId (to update)</returns>
+        public HashSet<int> DeleteService(int serviceId);
     }
 }

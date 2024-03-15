@@ -12,10 +12,11 @@ namespace TaskOne.Services
         public OrderDetailDto UpdateOrderDetail(OrderDetailDto request);
         public OrderDto CreateOrder(OrderRequest request);
         public void DeleteOrder(int orderId);
-        public void DeleteOrderDetails(int orderDetailsId);
+        public void DeleteOrderDetails(int orderDetailId);
         public List<OrderDetailDto> AddOrderDetails(OrderDetailRequest request);
         public OrderDto SubmitOrder(int orderId);
         public ICollection<OrderDto> GetOrdersForCustomer(int customerId);
         public ICollection<OrderDto> GetOrdersForExecutor(int executorId);
+        public void UpdateOrderPrice(int orderId);
     }
 }

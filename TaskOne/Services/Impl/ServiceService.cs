@@ -6,7 +6,7 @@ using TaskOne.Models.Repositories;
 
 namespace TaskOne.Services.Impl
 {
-    public class ServiceService(IServiceRepo serviceRepo, IMapper mapper): IServiceService
+    public class ServiceService(IServiceRepo serviceRepo, IOrderService orderService, IMapper mapper): IServiceService
     {
         /// <inheritdoc />
         public ICollection<ServiceDto> GetServices()
@@ -26,8 +26,13 @@ namespace TaskOne.Services.Impl
         /// <inheritdoc />
         public ServiceDto UpdateService(ServiceDto serviceDto)
         {
-            var resultService = serviceRepo.UpdateService(mapper.Map<Service>(serviceDto));
-            return mapper.Map<ServiceDto>(resultService);
+            var result = serviceRepo.UpdateService(mapper.Map<Service>(serviceDto));
+
+            foreach (var orderId in result.Item2)
+            {
+                orderService.UpdateOrderPrice(orderId);
+            }
+            return mapper.Map<ServiceDto>(result.Item1);
         }
 
         /// <inheritdoc />
@@ -40,10 +45,12 @@ namespace TaskOne.Services.Impl
         /// <inheritdoc />
         public void DeleteService(int serviceId)
         {
-            if (!serviceRepo.DeleteService(serviceId))
+            var orderIds = serviceRepo.DeleteService(serviceId);
+            foreach (var orderId in orderIds)
             {
-                throw new NotFoundException("Service cannot be deleted with id: " + serviceId);
+                orderService.UpdateOrderPrice(orderId);
             }
         }
+
     }
 }

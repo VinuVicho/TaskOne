@@ -8,7 +8,6 @@ namespace TaskOne.Models.Repositories
         public ICollection<OrderDetail> GetOrderDetails();
         public ICollection<OrderDetail> GetOrderDetailsByOrderId(int orderId);
         public Order CreateOrder (Order order);
-        public OrderDetail CreateOrderDetail(OrderDetail orderDetail);
         public List<OrderDetail> CreateOrderDetails(List<OrderDetail> orderDetail);
         public Order GetOrderById (int orderId);
         public OrderDetail GetOrderDetailById (int orderDetailId);
@@ -21,9 +20,9 @@ namespace TaskOne.Models.Repositories
         /// <returns>true, if successful delete, false, if there is no Order</returns>
         public bool DeleteOrder(int orderId);
         public bool DeleteOrderDetails(int orderDetailId);
-        public Order UpdateOrderStatus(int orderId, string status);
         public Order SubmitOrder(int orderId);
         public ICollection<Order> GetOrdersForCustomerId(int customerId);
         public ICollection<Order> GetOrdersForExecutorId(int executorId);
+        void SetOrderPrice(int orderId, decimal price);
     }
 }

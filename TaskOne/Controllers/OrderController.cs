@@ -121,7 +121,7 @@ namespace TaskOne.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<OrderDto>))]
         public ActionResult<IEnumerable<OrderDto>> GetOrderForExecutor(int executorId)
         {
-            var result = orderService.GetOrdersForCustomer(executorId);
+            var result = orderService.GetOrdersForExecutor(executorId);
             return Ok(result);
         }
     }

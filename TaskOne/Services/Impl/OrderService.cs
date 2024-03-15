@@ -40,9 +40,12 @@ namespace TaskOne.Services.Impl
             return mapper.Map<OrderDto>(result);
         }
 
-        public OrderDetailDto UpdateOrderDetail(OrderDetailDto request)
+        public OrderDetailDto UpdateOrderDetail(OrderDetailDto request)         //TODO: make another DTO request to avoid updating order
         {
             var result = orderRepo.UpdateOrderDetail(mapper.Map<OrderDetail>(request));
+
+            UpdateOrderPrice(result.OrderId);
+
             return mapper.Map<OrderDetailDto>(result);
         }
 
@@ -65,6 +68,7 @@ namespace TaskOne.Services.Impl
                 })
                 .ToList();
             orderRepo.CreateOrderDetails(orderDetailsList);
+            UpdateOrderPrice(savedOrder.OrderId);
             return mapper.Map<OrderDto>(savedOrder);
         }
 
@@ -76,12 +80,14 @@ namespace TaskOne.Services.Impl
             }
         }
 
-        public void DeleteOrderDetails(int orderDetailsId)
+        public void DeleteOrderDetails(int orderDetailId)
         {
-            if (!orderRepo.DeleteOrderDetails(orderDetailsId))
+            var orderId = orderRepo.GetOrderDetailById(orderDetailId).OrderId;
+            if (!orderRepo.DeleteOrderDetails(orderDetailId))
             {
-                throw new NotFoundException("No orderDetails with id: " + orderDetailsId);
+                throw new NotFoundException("No OrderDetails with id: " + orderDetailId);
             }
+            UpdateOrderPrice(orderId);
         }
 
         public List<OrderDetailDto> AddOrderDetails(OrderDetailRequest request)
@@ -90,16 +96,24 @@ namespace TaskOne.Services.Impl
             {
                 return [];
             }
+
+            var order = orderRepo.GetOrderById(request.OrderId);
+            if (order == null || order.Status != "In process")
+            {
+                throw new BadRequestException("Cannot add details to order with Id: " + request.OrderId);
+            }
+            int orderId = order.OrderId;
             var orderDetailsList = request.OrderDetails
                 .Select(orderDetail => new OrderDetail
                 {
-                    OrderId = request.OrderId, 
+                    OrderId = orderId, 
                     Quantity = orderDetail.Quantity, 
                     ServiceId = orderDetail.ServiceId,
                 })
                 .ToList();
             
             var result = orderRepo.CreateOrderDetails(orderDetailsList);
+            UpdateOrderPrice(orderId);
             return result.Select(mapper.Map<OrderDetailDto>).ToList();
         }
 
@@ -116,6 +130,17 @@ namespace TaskOne.Services.Impl
         public ICollection<OrderDto> GetOrdersForExecutor(int executorId)
         {
             return orderRepo.GetOrdersForExecutorId(executorId).Select(mapper.Map<OrderDto>).ToList();
+        }
+
+        public void UpdateOrderPrice(int orderId)
+        {
+            var order = orderRepo.GetOrderById(orderId);
+            if (order != null && order.Status == "In process")
+            {
+                decimal price = order.OrderDetails
+                    .Sum(orderDetail => orderDetail.Quantity * orderDetail.Service.Price);
+                orderRepo.SetOrderPrice(orderId, price);
+            }
         }
     }
 }
